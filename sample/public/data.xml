@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<form id="contact" title="Example - first form (pages mode, with bootstrap classes)">
+  <step id="first" title="First step">
+    <question id="firstname" title="First name" type="text" required="true" placeholder="what's ur firstname?" maxlength="30"/>
+    <question id="lastname" title="Lastname" type="text" required="true" placeholder="What's your last name" maxlength="20"/>
+  </step>
+  <step id="second" title="Second step">
+    <question id="source" title="How did you find us?" type="dropdown" required="true" placeholder="" maxlength="">
+      <option value="advertisement" label="Ad"/>
+      <option value="phonebook" label="Phone book"/>
+      <option value="yelp" label="yelp"/>
+      <option value="tripadvisor" label="tripadvisor"/>
+      <option value="google" label="google"/>
+    </question>
+    <question id="message" title="What's your message to us?" type="textarea" required="true" placeholder="Looking forward to hearing from you!" maxlength="35"/>
+    <question id="bla" title="Bla" type="text" required="false" placeholder="" maxlength=""/>
+  </step>
+</form>
