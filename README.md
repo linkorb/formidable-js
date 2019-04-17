@@ -1,5 +1,70 @@
 # Formidable.js
 
+### Usage
+
+1. Add the following element to your HTML:
+
+```html
+<div
+  class="formidable-form"
+  data-url="https://example.com/my-form.xml"
+  data-submit="https://example.com/my-post-endpoint"
+  data-submit-format="json"
+  data-css-framework="bootstrap4"
+  data-step-mode="pages">
+</div>
+```
+Availible element attributes:
+
+Attribute                | Description
+-------------------------|----------------------------------
+data-url                 | URL for loading the XML via Ajax
+data-script              | ID for loading the XML from a script element, i.e. `<script id="my-form" type="text/xmldata">`
+data-submit              | HTTP POST endpoint that receives the submitted form
+data-submit-format       | Specifies how to submit the form. Valid options `application/json` and `application/x-www-form-urlencoded` (used by default if that attribute is not specified)
+data-css-framework       | Specifies if framework-specific classnames should be used. Valid options `bootstrap4` or `"null"` (default)
+data-step-mode           | Indicates if the steps should be all rendered in a single screen (single) or toggled over multiple pages (pages)
+
+XML sample:
+
+```xml
+<?xml version="1.0"?>
+<form id="contact" title="Contact form">
+  <step id="first" title="First step">
+    <question id="firstname" title="First name" type="text" required="true" placeholder="What's ur firstname?" maxlength="30"/>
+    <question id="lastname" title="Lastname" type="text" required="true" placeholder="What's your last name" maxlength="20"/>
+  </step>
+  <step id="second" title="Second step">
+    <question id="source" title="How did you find us?" type="dropdown" required="true" placeholder="" maxlength="">
+      <option value="advertisement" label="Ad"/>
+      <option value="phonebook" label="Phone book"/>
+      <option value="yelp" label="yelp"/>
+      <option value="tripadvisor" label="tripadvisor"/>
+      <option value="google" label="google"/>
+    </question>
+    <question id="message" title="What's your message to us?" type="textarea" required="true" placeholder="Looking forward to hearing from you!" maxlength="35"/>
+  </step>
+</form>
+```
+
+2. Add `formidable.js` script to your HTML:
+
+```html
+    <script src="formidable.js"></script>
+```
+You can also use the minified version, do the following steps to build it:
+
+1. Install dependencies:
+```sh
+npm install
+```
+
+2. Run the command to build minified version:
+```sh
+npm run build
+```
+Generated bundle file will be created in `dist` directory.
+
 ### Testing (using express.js as a static server)
 
 1. Go to `sample` directory:
