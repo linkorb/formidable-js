@@ -27,7 +27,9 @@
     const {
       submit,
       stepMode,
+      errorUrl,
       nextLabel,
+      successUrl,
       submitLabel,
       submitFormat,
       cssFramework,
@@ -118,11 +120,11 @@
         ${pages}
       </form>`;
 
-    addEventHandlers(id, { submit, stepMode, enctype });
+    addEventHandlers(id, { submit, stepMode, enctype, successUrl, errorUrl });
   }
 
   function addEventHandlers(id, parameters) {
-    const { submit, stepMode, enctype } = parameters;
+    const { submit, stepMode, enctype, successUrl, errorUrl } = parameters;
 
     const form = document.querySelector(`form#${id}`);
     const inputs = form.getElementsByClassName('formidable-input');
@@ -164,7 +166,12 @@
       xhr.send(prepareBody(inputs, enctype));
 
       xhr.onload = () => {
-        if (xhr.status === 200) localStorage.clear();
+        if (xhr.status === 200) {
+          localStorage.clear();
+          location.href = successUrl;
+        } else {
+          location.href = errorUrl;
+        }
       };
     }
 
