@@ -11,7 +11,12 @@
   data-submit="https://example.com/my-post-endpoint"
   data-submit-format="json"
   data-css-framework="bootstrap4"
-  data-step-mode="pages">
+  data-step-mode="pages"
+  data-submit-label="Submit form"
+  data-next-label="Next step"
+  data-previous-label="Previous step"
+  data-success-url="/success"
+  data-error-url="/error">
 </div>
 ```
 Availible element attributes:
@@ -24,6 +29,11 @@ data-submit              | HTTP POST endpoint that receives the submitted form
 data-submit-format       | Specifies how to submit the form. Valid options `application/json` and `application/x-www-form-urlencoded` (used by default if that attribute is not specified)
 data-css-framework       | Specifies if framework-specific classnames should be used. Valid options `bootstrap4` or `"null"` (default)
 data-step-mode           | Indicates if the steps should be all rendered in a single screen (single) or toggled over multiple pages (pages)
+data-success-url         | URL to redirect after successful form submission
+data-error-url           | URL to redirect after failed form submission
+data-next-label          | Text for "Next" button
+data-previous-label      | Text for "Previous" button
+data-submit-label        | Text for "Submit" button
 
 XML sample:
 
