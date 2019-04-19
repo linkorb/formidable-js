@@ -75,11 +75,14 @@
 
         if (lastPage) pages += `
           <button
-            class="formidable-previous-button"
-            hidden>${previousLabel || 'Previous'}
+            class="formidable-previous-button
+              ${addClasses('btn-secondary', cssFramework)}" hidden>
+            ${previousLabel || 'Previous'}
           </button>
           <button
-            class="formidable-next-button">${nextLabel || 'Next'}
+            class="formidable-next-button
+              ${addClasses('btn-secondary', cssFramework)}">
+            ${nextLabel || 'Next'}
           </button>
           <input
             type="submit"
@@ -320,7 +323,7 @@
     }
   }
 
-  function addClasses(classes, cssFramework) {
-    return cssFramework === 'bootstrap4' ? classes: '';
+  function addClasses(classes, framework) {
+    return framework === 'bootstrap4' ? classes: '';
   }
 }());
