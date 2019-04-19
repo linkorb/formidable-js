@@ -3,15 +3,7 @@
   const forms = document.getElementsByClassName('formidable-form');
 
   forEach.call(forms, form => {
-    const { url, script, submit, submitFormat, cssFramework, stepMode }
-      = form.dataset;
-
-    const parameters = {
-      submit, stepMode, cssFramework,
-      enctype: submitFormat
-        ? `application/${submitFormat}`
-        : 'application/x-www-form-urlencoded'
-    };
+    const { url, script } = form.dataset;
 
     if (url) {
       const xhr = new XMLHttpRequest();
@@ -20,18 +12,31 @@
       xhr.send();
 
       xhr.onload = () => {
-        if (xhr.status === 200) renderForm(form, xhr.response, parameters);
+        if (xhr.status === 200) renderForm(form, xhr.response);
       };
     } else {
       const xml = document.getElementById(script).textContent;
 
-      renderForm(form, xml, parameters);
+      renderForm(form, xml);
     }
   });
 
-  function renderForm(formElement, xml, parameters) {
+  function renderForm(node, xml) {
     const form = parseXML(xml);
-    const { submit, stepMode, enctype, cssFramework } = parameters;
+
+    const {
+      submit,
+      stepMode,
+      nextLabel,
+      submitLabel,
+      submitFormat,
+      cssFramework,
+      previousLabel
+    } = node.dataset;
+
+    const enctype = submitFormat
+      ? `application/${submitFormat}`
+      : 'application/x-www-form-urlencoded';
 
     const id = form.getAttribute('id');
     const title = form.getAttribute('title');
@@ -45,13 +50,8 @@
       const title = step.getAttribute('title');
       const questions = step.getElementsByTagName('question');
 
-      parameters.firstPage = firstPage;
-
-      const inputs = reduce.call(questions, (inputs, question) => {
-        inputs += buildInput(question, parameters);
-
-        return inputs;
-      }, '');
+      const inputs = reduce.call(questions, (inputs, question) =>
+        inputs += buildInput(question, { cssFramework, firstPage }), '');
 
       const fieldset =
         `<legend class="formidable-legend">${title}</legend>${inputs}`;
@@ -76,14 +76,14 @@
         if (lastPage) pages += `
           <button
             class="formidable-previous-button"
-            hidden>Previous
+            hidden>${previousLabel || 'Previous'}
           </button>
           <button
-            class="formidable-next-button">Next
+            class="formidable-next-button">${nextLabel || 'Next'}
           </button>
           <input
             type="submit"
-            value="Submit"
+            value="${submitLabel || 'Submit'}"
             class="formidable-submit-button
               ${addClasses('btn btn-primary', cssFramework)}"
             hidden>`;
@@ -97,7 +97,7 @@
         if (lastPage) pages += `
           <input
             type="submit"
-            value="Submit"
+            value="${submitLabel || 'Submit'}"
             class="formidable-submit-button
               ${addClasses('btn btn-primary', cssFramework)}">`;
       }
@@ -105,7 +105,7 @@
       return pages;
     }, '');
 
-    formElement.outerHTML = `
+    node.outerHTML = `
       <form class="formidable-form"
         id="${id}"
         method="POST"
@@ -115,7 +115,7 @@
         ${pages}
       </form>`;
 
-    addEventHandlers(id, parameters);
+    addEventHandlers(id, { submit, stepMode, enctype });
   }
 
   function addEventHandlers(id, parameters) {
